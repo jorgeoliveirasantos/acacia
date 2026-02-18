@@ -1,23 +1,23 @@
-# Documentação da Biblioteca Acacia
+# Acacia Library Documentation
 
-A biblioteca **Acacia** é um conjunto de componentes web customizáveis e utilitários para construção rápida de interfaces de aplicações web. Ela fornece elementos HTML personalizados, sistema de temas via variáveis CSS, gerenciamento de layout responsivo, modais, tooltips, grids de dados, galerias, players de áudio e muito mais.
+The **Acacia** library is a set of customizable web components and utilities for rapid construction of web application interfaces. It provides custom HTML elements, a theme system via CSS variables, responsive layout management, modals, tooltips, data grids, galleries, audio players, and much more.
 
-## Índice
+## Table of Contents
 
-1. [Instalação](#instalação)
-2. [Primeiros passos](#primeiros-passos)
-3. [Estrutura da Aplicação](#estrutura-da-aplicação)
-4. [Temas e Personalização](#temas-e-personalização)
-5. [Componentes](#componentes)
-   - [Elementos de layout](#elementos-de-layout)
-   - [Elementos de conteúdo](#elementos-de-conteúdo)
-   - [Formulários](#formulários)
-   - [Navegação](#navegação)
-   - [Mídia](#mídia)
-   - [Feedback e interação](#feedback-e-interação)
-   - [Listas e tabelas](#listas-e-tabelas)
-   - [Menus laterais e modais](#menus-laterais-e-modais)
-6. [Utilitários](#utilitários)
+1. [Installation](#installation)
+2. [Getting Started](#getting-started)
+3. [Application Structure](#application-structure)
+4. [Theming and Customization](#theming-and-customization)
+5. [Components](#components)
+   - [Layout Elements](#layout-elements)
+   - [Content Elements](#content-elements)
+   - [Forms](#forms)
+   - [Navigation](#navigation)
+   - [Media](#media)
+   - [Feedback and Interaction](#feedback-and-interaction)
+   - [Lists and Tables](#lists-and-tables)
+   - [Side Menus and Modals](#side-menus-and-modals)
+6. [Utilities](#utilities)
    - [Content](#content)
    - [Renderer](#renderer)
    - [Tooltip](#tooltip)
@@ -25,54 +25,55 @@ A biblioteca **Acacia** é um conjunto de componentes web customizáveis e utili
    - [Datagrid](#datagrid)
    - [Gallery](#gallery)
    - [IdControl](#idcontrol)
-7. [Exemplos](#exemplos)
-8. [Referência da API](#referência-da-api)
+7. [Examples](#examples)
+8. [API Reference](#api-reference)
+9. [Additional Information](#additional-information)
 
 ---
 
-## Instalação
+## Installation
 
-Para utilizar a Acacia em seu projeto, copie os arquivos fornecidos (`acacia.css`, `acacia.js`, `content.js`, `renderer.js`) para uma pasta, por exemplo `/lib/acacia/`. Inclua os arquivos no `<head>` da sua página:
+To use Acacia in your project, copy the provided files (`acacia.css`, `acacia.js`, `content.js`, `renderer.js`) into a folder, e.g., `/lib/acacia/`. Include the files in the `<head>` of your page:
 
 ```html
 <link rel="stylesheet" href="/lib/acacia/acacia.css">
 <script type="module" src="/lib/acacia/acacia.js"></script>
 ```
 
-Alguns componentes dependem de assets (imagens, ícones, etc.) que devem estar disponíveis em `/files/`. Certifique-se de colocar os arquivos necessários (como `menu.svg`, `close.svg`, `splash.svg`, etc.) nesse diretório ou ajuste os caminhos no código.
+Some components depend on assets (images, icons, etc.) that must be available in `/files/`. Make sure to place the required files (such as `menu.svg`, `close.svg`, `splash.svg`, etc.) in that directory or adjust the paths in the code.
 
 ---
 
-## Primeiros passos
+## Getting Started
 
-A maneira mais simples de iniciar uma aplicação Acacia é usando a classe `Acacia`:
+The simplest way to start an Acacia application is by using the `Acacia` class:
 
 ```javascript
 import { Acacia } from '/lib/acacia/acacia.js';
 
 const app = new Acacia(
-  'Meu App',               // Nome do aplicativo (título da página)
-  false,                   // Oculta a barra inferior? (true/false)
-  { ... }                  // Configuração do menu lateral (opcional)
+  'My App',               // Application name (page title)
+  false,                   // Hide bottom bar? (true/false)
+  { ... }                  // Side menu configuration (optional)
 );
 ```
 
-Isso criará a estrutura básica com barra superior, área principal e barra inferior. O conteúdo inicial é carregado do arquivo `views/home` (por padrão). Você pode personalizar esse comportamento.
+This will create the basic structure with a top bar, main area, and bottom bar. The initial content is loaded from the `views/home` file (by default). You can customize this behavior.
 
-Para aplicações desktop (com menu superior no estilo tradicional), utilize `AcaciaDesktop`:
+For desktop applications (with a traditional top menu), use `AcaciaDesktop`:
 
 ```javascript
 import { AcaciaDesktop } from '/lib/acacia/acacia.js';
 
 const app = new AcaciaDesktop(
-  'Meu App Desktop',
+  'My Desktop App',
   {
-    'Arquivo': [
-      { title: 'Novo', action: () => console.log('Novo') },
-      { title: 'Abrir', action: () => console.log('Abrir') }
+    'File': [
+      { title: 'New', action: () => console.log('New') },
+      { title: 'Open', action: () => console.log('Open') }
     ],
-    'Editar': [
-      { title: 'Copiar', action: () => console.log('Copiar') }
+    'Edit': [
+      { title: 'Copy', action: () => console.log('Copy') }
     ]
   }
 );
@@ -80,34 +81,34 @@ const app = new AcaciaDesktop(
 
 ---
 
-## Estrutura da Aplicação
+## Application Structure
 
-A Acacia define vários elementos customizados que estruturam a interface:
+Acacia defines several custom elements that structure the interface:
 
-- `<acacia-app>`: Container principal da aplicação. Contém as barras superior e inferior e a área principal.
-- `<app-top-bar>`: Barra superior, com logo, ícone de menu e espaço para ícones.
-- `<app-bottom-bar>`: Barra inferior.
-- `<app-main>`: Área principal dividida em três colunas: barra esquerda, visualização principal e barra direita.
-- `<left-bar>`, `<right-bar>`: Barras laterais (visíveis apenas em modo paisagem).
-- `<app-view>`: Área central onde o conteúdo principal é renderizado.
+- `<acacia-app>`: Main application container. Contains the top and bottom bars and the main area.
+- `<app-top-bar>`: Top bar, with logo, menu icon, and space for icons.
+- `<app-bottom-bar>`: Bottom bar.
+- `<app-main>`: Main area divided into three columns: left bar, main view, and right bar.
+- `<left-bar>`, `<right-bar>`: Sidebars (visible only in landscape mode).
+- `<app-view>`: Central area where the main content is rendered.
 
-Esses elementos são automaticamente criados ao instanciar `Acacia` ou `AcaciaDesktop`. Você pode acessar as referências globais:
+These elements are automatically created when instantiating `Acacia` or `AcaciaDesktop`. You can access the global references:
 
 ```javascript
-window.ACACIA      // Elemento <acacia-app>
-window.APP         // Elemento <app-main>
-window.APPVIEW     // Elemento <app-view>
-window.TOPBAR      // Barra superior
-window.BOTTOMBAR   // Barra inferior
-window.LEFTBAR     // Barra esquerda
-window.RIGHTBAR    // Barra direita
+window.ACACIA      // <acacia-app> element
+window.APP         // <app-main> element
+window.APPVIEW     // <app-view> element
+window.TOPBAR      // Top bar
+window.BOTTOMBAR   // Bottom bar
+window.LEFTBAR     // Left bar
+window.RIGHTBAR    // Right bar
 ```
 
 ---
 
-## Temas e Personalização
+## Theming and Customization
 
-A aparência é controlada por variáveis CSS definidas em `:root` no arquivo `acacia.css`. Você pode sobrescrevê-las para criar seu próprio tema.
+The appearance is controlled by CSS variables defined in `:root` in the `acacia.css` file. You can override them to create your own theme.
 
 ```css
 :root {
@@ -126,188 +127,188 @@ A aparência é controlada por variáveis CSS definidas em `:root` no arquivo `a
 }
 ```
 
-Altere qualquer variável para modificar cores, gradientes, cursor, etc. A fonte `chisel` é carregada via `@font-face` (certifique-se de ter o arquivo `Chisel Mark.ttf` no caminho indicado).
+Change any variable to modify colors, gradients, cursor, etc. The `chisel` font is loaded via `@font-face` (ensure you have the `Chisel Mark.ttf` file in the indicated path).
 
 ---
 
-## Componentes
+## Components
 
-A Acacia oferece dezenas de componentes customizados. Abaixo a lista completa com breve descrição.
+Acacia offers dozens of custom components. Below is the complete list with a brief description.
 
-### Elementos de layout
+### Layout Elements
 
-| Elemento | Descrição |
-|----------|-----------|
-| `<acacia-container>` | Container centralizado com fundo padrão, usado para modais ou telas inteiras. |
-| `<app-container>` | Container flexível em coluna, usado dentro das views. |
-| `<grid-row>` | Linha flexível horizontal. |
-| `<grid-column>` | Coluna flexível vertical. |
-| `<container-box>` | Caixa com altura e largura ajustadas ao conteúdo. |
-| `<vertical-divider>` | Divisor vertical (linha). |
-| `<horizontal-divider>` | Divisor horizontal (linha). |
+| Element | Description |
+|---------|-------------|
+| `<acacia-container>` | Centered container with default background, used for modals or full screens. |
+| `<app-container>` | Flexible column container, used inside views. |
+| `<grid-row>` | Horizontal flex row. |
+| `<grid-column>` | Vertical flex column. |
+| `<container-box>` | Box with height and width adjusted to content. |
+| `<vertical-divider>` | Vertical divider (line). |
+| `<horizontal-divider>` | Horizontal divider (line). |
 
-### Elementos de conteúdo
+### Content Elements
 
-| Elemento | Descrição |
-|----------|-----------|
-| `<card-big>` | Cartão grande com borda, usado para posts, mensagens, etc. Possui classes auxiliares `.card-left` e `.card-right`. |
-| `<text-heading>` | Título principal. |
-| `<text-subheading>` | Subtítulo. |
-| `<text-paragraph>` | Parágrafo justificado. |
-| `<text-label>` | Rótulo (texto pequeno). |
-| `<text-link>` | Link personalizado (usa atributo `href` e `target`). |
-| `<toast-mini>` | Toast pequeno para notificações. Atributo `autoclose` define segundos para fechar automaticamente. |
-| `<markdown-viewer>` | Visualizador de Markdown (usado em conjunto com `Renderer.Components.DocsPage`). |
+| Element | Description |
+|---------|-------------|
+| `<card-big>` | Large card with border, used for posts, messages, etc. Has helper classes `.card-left` and `.card-right`. |
+| `<text-heading>` | Main heading. |
+| `<text-subheading>` | Subheading. |
+| `<text-paragraph>` | Justified paragraph. |
+| `<text-label>` | Label (small text). |
+| `<text-link>` | Custom link (uses `href` and `target` attributes). |
+| `<toast-mini>` | Small toast for notifications. The `autoclose` attribute sets seconds to auto-close. |
+| `<markdown-viewer>` | Markdown viewer (used together with `Renderer.Components.DocsPage`). |
 
-### Formulários
+### Forms
 
-| Elemento | Descrição |
-|----------|-----------|
-| `<acacia-form>` | Container de formulário com borda. |
-| `<fieldset>` | Fieldset estilizado. |
-| `<acacia-slider>` | Slider (range) customizado. Atributos: `min`, `max`, `step`, `value`, `id`. |
-| `<acacia-progress>` | Barra de progresso com valor exibido. Atributo `value` (0-100). |
-| `<input class="acacia-input">` | Campo de texto estilizado. |
-| `<select class="acacia-input-select">` | Select estilizado. |
-| `<label class="acacia-checkbox">` | Checkbox personalizado. |
-| `<label class="acacia-radio">` | Radio button personalizado. |
+| Element | Description |
+|---------|-------------|
+| `<acacia-form>` | Form container with border. |
+| `<fieldset>` | Styled fieldset. |
+| `<acacia-slider>` | Custom slider (range). Attributes: `min`, `max`, `step`, `value`, `id`. |
+| `<acacia-progress>` | Progress bar with displayed value. Attribute `value` (0-100). |
+| `<input class="acacia-input">` | Styled text field. |
+| `<select class="acacia-input-select">` | Styled select. |
+| `<label class="acacia-checkbox">` | Custom checkbox. |
+| `<label class="acacia-radio">` | Custom radio button. |
 
-### Navegação
+### Navigation
 
-| Elemento | Descrição |
-|----------|-----------|
-| `<acacia-tabs>` | Container de abas. Contém `<acacia-tabs-item>` e `<acacia-tabs-content>`. |
-| `<acacia-badge>` | Seletor por badges (abas em linha). Contém `<acacia-badge-item>` e `<acacia-badge-content>`. |
-| `<button-squared>` | Botão quadrado. |
-| `<button-rounded>` | Botão arredondado. |
+| Element | Description |
+|---------|-------------|
+| `<acacia-tabs>` | Tabs container. Contains `<acacia-tabs-item>` and `<acacia-tabs-content>`. |
+| `<acacia-badge>` | Badge selector (inline tabs). Contains `<acacia-badge-item>` and `<acacia-badge-content>`. |
+| `<button-squared>` | Square button. |
+| `<button-rounded>` | Rounded button. |
 
-### Mídia
+### Media
 
-| Elemento | Descrição |
-|----------|-----------|
-| `<image-gallery>` | Galeria de imagens com navegação. Normalmente criada via classe `Gallery`. |
-| `<acacia-audio>` | Player de áudio com controles (play/pause, volume, progresso). Atributo `src` aponta para o arquivo de áudio. |
+| Element | Description |
+|---------|-------------|
+| `<image-gallery>` | Image gallery with navigation. Usually created via the `Gallery` class. |
+| `<acacia-audio>` | Audio player with controls (play/pause, volume, progress). Attribute `src` points to the audio file. |
 
-### Feedback e interação
+### Feedback and Interaction
 
-| Elemento | Descrição |
-|----------|-----------|
-| `<acacia-accordion>` | Accordion (painel expansível). Contém `<accordion-item>`, `<accordion-title>`, `<accordion-content>`. |
-| `<compact-list>` | Lista compacta com ícone e título. Usa `<list-item>` e `<text-label>`. |
-| `<acacia-table>` | Tabela simples. Usa `<table-title>`, `<table-headers>`, `<table-row>`, etc. |
-| `<data-grid>` | Grid de dados editável com seleção de linhas. Normalmente criado via classe `Datagrid`. |
-| `<side-menu>` | Menu lateral deslizante. Normalmente gerenciado por `Renderer.SideMenu`. |
+| Element | Description |
+|---------|-------------|
+| `<acacia-accordion>` | Expandable panel (accordion). Contains `<accordion-item>`, `<accordion-title>`, `<accordion-content>`. |
+| `<compact-list>` | Compact list with icon and title. Uses `<list-item>` and `<text-label>`. |
+| `<acacia-table>` | Simple table. Uses `<table-title>`, `<table-headers>`, `<table-row>`, etc. |
+| `<data-grid>` | Editable data grid with row selection. Usually created via the `Datagrid` class. |
+| `<side-menu>` | Sliding side menu. Usually managed by `Renderer.SideMenu`. |
 
-### Menus laterais e modais
+### Side Menus and Modals
 
-| Elemento | Descrição |
-|----------|-----------|
-| `<side-menu>` | Container do menu lateral. Contém `<side-menu-outside>` (fundo semitransparente) e `<side-menu-container>`. |
-| `<modal-container>` | Container para modais. Usado internamente por `Modal`. |
-| `<modal-box>` | Caixa de modal. |
-| `<modal-window>` | Janela modal maior. |
-| `<tooltip>` e `<context>` | Elementos flutuantes para tooltips e menus de contexto (gerenciados por `Tooltip`). |
+| Element | Description |
+|---------|-------------|
+| `<side-menu>` | Side menu container. Contains `<side-menu-outside>` (semi-transparent background) and `<side-menu-container>`. |
+| `<modal-container>` | Container for modals. Used internally by `Modal`. |
+| `<modal-box>` | Modal box. |
+| `<modal-window>` | Larger modal window. |
+| `<tooltip>` and `<context>` | Floating elements for tooltips and context menus (managed by `Tooltip`). |
 
 ---
 
-## Utilitários
+## Utilities
 
 ### Content
 
-Objeto com métodos para manipulação de dados, cache, IndexedDB e HTTP.
+Object with methods for data manipulation, caching, IndexedDB, and HTTP.
 
-| Método | Descrição |
-|--------|-----------|
-| `Content.LoadJSON(path)` | Carrega um arquivo JSON e retorna uma Promise com o objeto. |
-| `Content.LoadText(path)` | Carrega um arquivo de texto. |
-| `Content.LoadBinary(path)` | Carrega um arquivo binário (Blob). |
-| `Content.ImageHandler.ResizeImg(imageElement, w, h)` | Redimensiona uma imagem e retorna nova imagem em base64. |
-| `Content.TextHandler.Size(data)` | Retorna o tamanho dos dados em MB. |
-| `Content.TextHandler.CurrencyConverter(txt, format)` | Converte string para formato monetário (R$). |
-| `Content.TextHandler.MarkdownParser(markdown)` | Converte markdown para HTML. |
-| `Content.IndexedDB.New(dbName, tableName)` | Cria banco/ tabela. |
-| `Content.IndexedDB.Check(dbName, tableName, id)` | Verifica se registro existe. |
-| `Content.IndexedDB.Write(dbName, tableName, data, id)` | Salva objeto. |
-| `Content.IndexedDB.Read(dbName, tableName, id)` | Lê objeto. |
-| `Content.IndexedDB.Remove(dbName, tableName, id)` | Remove registro. |
-| `Content.Cache.SaveData(url, data, cacheName)` | Salva dados no Cache API. |
-| `Content.Cache.GetData(url, cacheName)` | Recupera dados do cache. |
-| `Content.HTTP.Get(path)` | Requisição GET simples. |
-| `Content.HTTP.Post(path, body)` | Requisição POST com JSON. |
-| `Content.Social` | Estruturas para dados de usuário e sala (UserData, RoomData). |
+| Method | Description |
+|--------|-------------|
+| `Content.LoadJSON(path)` | Loads a JSON file and returns a Promise with the object. |
+| `Content.LoadText(path)` | Loads a text file. |
+| `Content.LoadBinary(path)` | Loads a binary file (Blob). |
+| `Content.ImageHandler.ResizeImg(imageElement, w, h)` | Resizes an image and returns a new image in base64. |
+| `Content.TextHandler.Size(data)` | Returns the size of the data in MB. |
+| `Content.TextHandler.CurrencyConverter(txt, format)` | Converts string to currency format (R$). |
+| `Content.TextHandler.MarkdownParser(markdown)` | Converts markdown to HTML. |
+| `Content.IndexedDB.New(dbName, tableName)` | Creates database/table. |
+| `Content.IndexedDB.Check(dbName, tableName, id)` | Checks if a record exists. |
+| `Content.IndexedDB.Write(dbName, tableName, data, id)` | Saves an object. |
+| `Content.IndexedDB.Read(dbName, tableName, id)` | Reads an object. |
+| `Content.IndexedDB.Remove(dbName, tableName, id)` | Removes a record. |
+| `Content.Cache.SaveData(url, data, cacheName)` | Saves data to the Cache API. |
+| `Content.Cache.GetData(url, cacheName)` | Retrieves data from cache. |
+| `Content.HTTP.Get(path)` | Simple GET request. |
+| `Content.HTTP.Post(path, body)` | POST request with JSON. |
+| `Content.Social` | Structures for user and room data (`UserData`, `RoomData`). |
 
 ### Renderer
 
-Responsável por carregar views, gerenciar layout e componentes complexos.
+Responsible for loading views, managing layout, and complex components.
 
-| Método | Descrição |
-|--------|-----------|
-| `Renderer.Load(viewName, target)` | Carrega um arquivo HTML da pasta `views/` e insere no elemento alvo. |
-| `Renderer.Home(hideBottomBar, callback)` | Inicializa a tela inicial. |
-| `Renderer.Desktop(callback)` | Inicializa o modo desktop (menu superior). |
-| `Renderer.DropFiles()` | Exibe área de drop e retorna Promise com os arquivos soltos. |
-| `Renderer.Layout` | Objeto com métodos de layout (`Verify`, `Landscape`, `Portrait`, `BottomTopLayout`, `TopLayout`, `CleanLayout`, etc.) |
-| `Renderer.SideMenu` | Gerencia o menu lateral (`Show`, `StartDrag`, `EndDrag`, etc.). |
-| `Renderer.VCard` | Importa/exporta vCard de perfil. |
-| `Renderer.Emojis` | Listas de emojis e método `Insert(textBox, emoji)`. |
-| `Renderer.Components` | Conjunto de funções para renderizar componentes prontos (perfil, posts, mensagens, comentários, salas, etc.). |
+| Method | Description |
+|--------|-------------|
+| `Renderer.Load(viewName, target)` | Loads an HTML file from the `views/` folder and inserts it into the target element. |
+| `Renderer.Home(hideBottomBar, callback)` | Initializes the home screen. |
+| `Renderer.Desktop(callback)` | Initializes desktop mode (top menu). |
+| `Renderer.DropFiles()` | Displays a drop area and returns a Promise with the dropped files. |
+| `Renderer.Layout` | Object with layout methods (`Verify`, `Landscape`, `Portrait`, `BottomTopLayout`, `TopLayout`, `CleanLayout`, etc.) |
+| `Renderer.SideMenu` | Manages the side menu (`Show`, `StartDrag`, `EndDrag`, etc.). |
+| `Renderer.VCard` | Imports/exports profile vCard. |
+| `Renderer.Emojis` | Lists of emojis and method `Insert(textBox, emoji)`. |
+| `Renderer.Components` | Set of functions to render ready-made components (profile, posts, messages, comments, rooms, etc.). |
 
-Exemplo de uso de `Renderer.Components`:
+Example usage of `Renderer.Components`:
 
 ```javascript
 Renderer.Components.MyProfilePage(
   id, username, name, description, thumbnail, genre, email, state,
-  (userData) => { /* callback ao salvar */ }
+  (userData) => { /* callback on save */ }
 );
 ```
 
 ### Tooltip
 
-Gerencia tooltips, menus de contexto, popovers de perfil e toasts.
+Manages tooltips, context menus, profile popovers, and toasts.
 
-| Método | Descrição |
-|--------|-----------|
-| `Tooltip.Tooltip(texto, elemento)` | Exibe tooltip simples ao passar o mouse sobre o elemento. |
-| `Tooltip.Context(menuItems)` | Exibe menu de contexto (array de objetos com `Ico`, `Title`, `Action`). |
-| `Tooltip.ProfilePopover(user, elemento)` | Exibe popover com dados do perfil (thumbnail, nome, username). |
-| `Tooltip.Toast(texto, segundos)` | Exibe toast automático (mini notificação). |
+| Method | Description |
+|--------|-------------|
+| `Tooltip.Tooltip(text, element)` | Displays a simple tooltip when hovering over the element. |
+| `Tooltip.Context(menuItems)` | Displays a context menu (array of objects with `Ico`, `Title`, `Action`). |
+| `Tooltip.ProfilePopover(user, element)` | Displays a popover with profile data (thumbnail, name, username). |
+| `Tooltip.Toast(text, seconds)` | Displays an automatic toast (mini notification). |
 
 ### Modal
 
-Sistema de modais com diferentes tipos.
+Modal system with different types.
 
-| Método | Descrição |
-|--------|-----------|
-| `Modal.Waiting(título, mensagem, callback)` | Modal de espera com animação de loading. Retorna Promise. |
-| `Modal.Message(título, mensagem, callback)` | Modal de mensagem com botão "Confirmar". |
-| `Modal.Error(título, mensagem, fatal, callback)` | Modal de erro, com opção fatal (reiniciar app). |
-| `Modal.Confirm(título, mensagem, callback)` | Modal de confirmação (sempre chama callback). Retorna Promise com booleano. |
-| `Modal.ConfirmAction(título, mensagem, callback)` | Similar, mas callback só é chamado se confirmado. |
-| `Modal.Input(título, mensagem, callback)` | Modal com campo de texto. Retorna Promise com valor. |
-| `Modal.Window(título, conteúdo)` | Modal com janela customizável (conteúdo HTML). |
+| Method | Description |
+|--------|-------------|
+| `Modal.Waiting(title, message, callback)` | Waiting modal with loading animation. Returns a Promise. |
+| `Modal.Message(title, message, callback)` | Message modal with "Confirm" button. |
+| `Modal.Error(title, message, fatal, callback)` | Error modal, with fatal option (restart app). |
+| `Modal.Confirm(title, message, callback)` | Confirmation modal (always calls callback). Returns a Promise with boolean. |
+| `Modal.ConfirmAction(title, message, callback)` | Similar, but callback is only called if confirmed. |
+| `Modal.Input(title, message, callback)` | Modal with an input field. Returns a Promise with the value. |
+| `Modal.Window(title, content)` | Modal with a customizable window (HTML content). |
 
 ### Datagrid
 
-Classe para criar grids de dados editáveis com seleção de linhas.
+Class to create editable data grids with row selection.
 
 ```javascript
 const dataGrid = new Datagrid(
-  'meuGrid',                    // id do grid
-  'Título',                     // título
-  [['Nome', 'Idade'], ['João', 30], ['Maria', 25]], // dados
-  container,                    // elemento alvo
-  (selectedValues) => { ... },  // callback quando seleciona linhas
-  (count) => { ... }            // callback quando seleciona todos
+  'myGrid',                    // grid id
+  'Title',                     // title
+  [['Name', 'Age'], ['John', 30], ['Mary', 25]], // data
+  container,                    // target element
+  (selectedValues) => { ... },  // callback when rows are selected
+  (count) => { ... }            // callback when all rows are selected
 );
 ```
 
 ### Gallery
 
-Classe para criar galerias de imagens.
+Class to create image galleries.
 
 ```javascript
 const gallery = new Gallery(
-  'minhaGaleria',
+  'myGallery',
   ['img1.jpg', 'img2.jpg', 'img3.jpg'],
   container
 );
@@ -315,17 +316,17 @@ const gallery = new Gallery(
 
 ### IdControl
 
-Gerador de IDs únicos para elementos.
+Unique ID generator for elements.
 
 ```javascript
-IdControl.NextId('Modal'); // ex: 'md-1'
+IdControl.NextId('Modal'); // e.g., 'md-1'
 ```
 
 ---
 
-## Exemplos
+## Examples
 
-### Criando um aplicativo com menu lateral
+### Creating an application with a side menu
 
 ```javascript
 import { Acacia } from '/lib/acacia/acacia.js';
@@ -334,64 +335,67 @@ const sideMenuContent = {
   ShowProfileSection: true,
   ProfileSection: {
     ProfilePic: '/files/user.jpg',
-    ProfileName: 'João Silva',
-    ProfileUsername: '@joao',
-    Action: () => { console.log('Perfil'); }
+    ProfileName: 'John Doe',
+    ProfileUsername: '@john',
+    Action: () => { console.log('Profile'); }
   },
   Links: [
-    { LinkIcon: '/files/home.svg', LinkTile: 'Início', LinkAction: () => console.log('Home') },
-    { LinkIcon: '/files/config.svg', LinkTile: 'Configurações', LinkAction: () => console.log('Config') }
+    { LinkIcon: '/files/home.svg', LinkTile: 'Home', LinkAction: () => console.log('Home') },
+    { LinkIcon: '/files/config.svg', LinkTile: 'Settings', LinkAction: () => console.log('Settings') }
   ]
 };
 
-new Acacia('Meu App', false, sideMenuContent);
+new Acacia('My App', false, sideMenuContent);
 ```
 
-### Exibindo um modal de confirmação
+### Displaying a confirmation modal
 
 ```javascript
 import { Modal } from '/lib/acacia/acacia.js';
 
-async function excluir() {
-  const confirmado = await Modal.Confirm('Atenção', 'Deseja realmente excluir?');
-  if (confirmado) {
-    // executa ação
+async function deleteItem() {
+  const confirmed = await Modal.Confirm('Attention', 'Do you really want to delete?');
+  if (confirmed) {
+    // perform action
   }
 }
 ```
 
-### Carregando uma view personalizada
+### Loading a custom view
 
 ```javascript
-Renderer.Load('minhaView', APPVIEW).then(() => {
-  console.log('View carregada');
+Renderer.Load('myView', APPVIEW).then(() => {
+  console.log('View loaded');
 });
 ```
 
-### Usando o player de áudio
+### Using the audio player
 
 ```html
-<acacia-audio src="/musicas/minha-musica.mp3"></acacia-audio>
+<acacia-audio src="/music/my-song.mp3"></acacia-audio>
 ```
 
 ---
 
-## Referência da API
+## API Reference
 
-Para consulta detalhada, explore os arquivos fonte. Abaixo um resumo das principais classes e objetos expostos globalmente:
+For detailed reference, explore the source files. Below is a summary of the main classes and objects exposed globally:
 
-- `window.Content` – utilitários de dados.
-- `window.Renderer` – renderização e layout.
-- `window.Modal` – sistema de modais.
-- `window.Tooltip` – tooltips e context menus.
-- `window.Datagrid` – classe para grids.
-- `window.Gallery` – classe para galerias.
-- `window.IdControl` – gerador de IDs.
+- `window.Content` – data utilities.
+- `window.Renderer` – rendering and layout.
+- `window.Modal` – modal system.
+- `window.Tooltip` – tooltips and context menus.
+- `window.Datagrid` – grid class.
+- `window.Gallery` – gallery class.
+- `window.IdControl` – ID generator.
 
-Elementos customizados registrados:
+Registered custom elements:
 
 - `acacia-app`, `acacia-accordion`, `card-big`, `button-rounded`, `button-squared`, `text-link`, `toast-mini`, `app-drawer-group`, `group-title`, `acacia-slider`, `acacia-progress`, `image-gallery`, `acacia-audio`, `acacia-desktop-app`, `acacia-top-menu`, `menu-item`, `menu-item-dropdown`, `dropdown-item`.
 
 ---
 
-Esta documentação cobre os principais aspectos da biblioteca Acacia. Para dúvidas ou contribuições, consulte os arquivos fonte ou entre em contato com o mantenedor.
+## Additional Information
+
+1. The `files.zip` archive in this repository must be extracted to the project root.
+2. Copyright © 2026 | Jorge Souza Oliveira dos Santos. All Rights Reserved.
